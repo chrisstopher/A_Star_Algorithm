@@ -1,7 +1,14 @@
 #include "Astar.h"
 
-A_Star::A_Star() {
-
+/**
+ * @brief A_Star::A_Star
+ * Create heuristic factory
+ * use the type to get the right heuristic  from the factory
+ * @param type default is HeuristicsFactory::MANHATTAN
+ */
+A_Star::A_Star(HeuristicsFactory::HEURISTIC_TYPE type) {
+    HeuristicsFactory heuristicFactory;
+    heuristic = heuristicFactory.getHeuristic(type);
 }
 
 A_Star::~A_Star() {
@@ -146,8 +153,8 @@ std::vector<std::shared_ptr<Node>> A_Star::getAdjacentNodesAround(Map& map,
             continue;
         }
         adjacentPositions.push_back(std::shared_ptr<Node>(new Node(adjacentNodesPos,
-                                                                   {getMovementCost(i.getX(), i.getY()) + node->getScore().getG(),
-                                                                    getManhattanDistance(adjacentNodesPos, endPosition)},
+                                                                   {heuristic->getMovementCost(i.getX(), i.getY()) + node->getScore().getG(),
+                                                                    heuristic->getDistance(adjacentNodesPos, endPosition)},
                                                                    node)));
     }
     return adjacentPositions;
@@ -254,7 +261,7 @@ bool A_Star::cuttingCorners(Map& map, const Vec2i& position, int x, int y) {
 void A_Star::reCalculateNode(const std::shared_ptr<Node>& currentNode,
                              std::shared_ptr<Node>& nodeInOpenList,
                              int x, int y) {
-    int newGScore = currentNode->getScore().getG() + getMovementCost(x, y);
+    int newGScore = currentNode->getScore().getG() + heuristic->getMovementCost(x, y);
     if (newGScore < nodeInOpenList->getScore().getG()) {
         nodeInOpenList->setParent(currentNode);
         nodeInOpenList->getScore().setG(newGScore);

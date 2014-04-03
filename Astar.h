@@ -11,7 +11,7 @@
 
 class A_Star {
     public:
-        A_Star();
+        A_Star(HeuristicsFactory::HEURISTIC_TYPE type = HeuristicsFactory::MANHATTAN);
         ~A_Star();
         void clear();
         std::stack<std::shared_ptr<Node>> findRoute(Map& map,
@@ -20,6 +20,7 @@ class A_Star {
     private:
         std::map<Vec2i, std::shared_ptr<Node>, Vec2iComparer> openList;
         std::map<Vec2i, std::shared_ptr<Node>, Vec2iComparer> closedList;
+        std::unique_ptr<Heuristic> heuristic;
 
         std::shared_ptr<Node> findPath(Map& map,
                                        const Vec2i& startPosition,
