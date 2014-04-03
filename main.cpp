@@ -29,20 +29,21 @@ int main() {
         map.setWall(Vec2i(5, i));
     }
     A_Star aStar;
-    std::cout << map << std::endl;
-//    std::cin.get();
+    std::cout << "Before running A*\n" << map << std::endl;
+//std::cin.get();
     auto route = aStar.findRoute(map, startPosition, endPosition);
     aStar.clear();
-    std::cout << map << std::endl;
+    std::cout << "After running A*\n" << map << std::endl;
     map.setStart(startPosition);
     map.setEnd(endPosition);
-    std::cout << map << std::endl;
+    std::cout << "Showing the start and end positions\n" << map << std::endl;
     std::cout << "Routes length: " << route.size() << std::endl;
     while (!route.empty()) {
         std::cout << *route.top();
+        map.setRoute(route.top()->getPosition());
         route.pop();
     }
-    std::cout << std::endl;
+    std::cout << "\nShowing the route\n" << map << std::endl;
     std::cin.get();
     return 0;
 }

@@ -20,6 +20,7 @@ public:
     void setStart(const Vec2i& position);
     void setEnd(const Vec2i& position);
     void setWall(const Vec2i& position);
+    void setRoute(const Vec2i& position);
 
     unsigned getWidth() const;
     unsigned getHeight() const;
@@ -27,6 +28,7 @@ private:
     //easily changable to whatever someone wants to use
     static const char START = 'S', END = 'E',
                       OPEN = '-', WALL = '#',
+                      ROUTE = 'R',
                       ON_OPEN_LIST = 'O', ON_CLOSED_LIST = 'X';
     Dynamic2dArray<char> map;
 };

@@ -56,6 +56,10 @@ void Map::setWall(const Vec2i& position) {
     map(position.getX(), position.getY()) = WALL;
 }
 
+void Map::setRoute(const Vec2i& position) {
+    map(position.getX(), position.getY()) = ROUTE;
+}
+
 /**
  * @brief operator <<
  * SCALE can only be greater than 0
